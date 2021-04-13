@@ -1,0 +1,11 @@
+el objetivo de este proyecto se realizar nuevamente el analisis de cinco grandes y la ventana de johari
+
+se va autilizar lo mismo pero el big five va a ser distinto
+
+el big five va a seguir el modelo de energia potencial, donde existe un total para cada factor y este total se reparte para un factor como puede ser extroversion y introversion
+
+ejemplo:
+
+total:500
+introversion:200
+extroversion:300
