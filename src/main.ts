@@ -4,7 +4,7 @@ import {Application, Router, send,RouterContext} from "https://deno.land/x/oak@v
 import {  viewEngine,
     engineFactory,
     adapterFactory} from  "https://deno.land/x/view_engine@v1.4.5/mod.ts";
-import {probabilidadComportamiento,observacionComportamiento} from '../ventanaJohari/ventanaJohariBase.ts';
+import {probabilidadComportamiento,observacionComportamiento,ventanaDeHonaryConteoComportamientos,ventanaDeHonaryProbabilidadComportamientos} from '../ventanaJohari/ventanaJohariBase.ts';
 let tabla:string[][]= []
 const decoder = new TextDecoder('utf-8');
 for await (const dirEntry of Deno.readDir("../data_base")) { 
@@ -22,7 +22,7 @@ let tablaConvertida:observacionComportamiento[] = tabla.map(fila=>{return {
  }})
 let coleccionPersonasComportamientosPorcentajes:Map<string, (string | number)[][]> = probabilidadComportamiento(tablaConvertida)
 let personas = new Set([...coleccionPersonasComportamientosPorcentajes.keys()])
-
+let coleccionAgrupacionPuntajesHonary = ventanaDeHonaryProbabilidadComportamientos(tablaConvertida)
 // now setting app
 const app = new Application();
 
@@ -44,7 +44,8 @@ app. use(viewEngine(oakAdapter, ejsEngine))
 
 const router = new Router();
 
-router.get("/probabilidad_comportamiento",async (ctx)=>{//https://developer.mozilla.org/en-US/docs/Web/API/URL/searchParams
+router
+.get("/probabilidad_comportamiento",async (ctx)=>{//https://developer.mozilla.org/en-US/docs/Web/API/URL/searchParams
     let query = ctx.request.url.searchParams
     console.log("/simplex")
     console.log(query.get("filas"))
@@ -58,6 +59,22 @@ router.get("/probabilidad_comportamiento",async (ctx)=>{//https://developer.mozi
     nombre:ctx.params.persona}
     console.log(personaAnalizar)
     ctx.render('views/index.ejs',{personas,personaAnalizar})
+
+})
+.get("/ventana_probabilidad_comportamiento",async (ctx)=>{//https://developer.mozilla.org/en-US/docs/Web/API/URL/searchParams
+    let query = ctx.request.url.searchParams
+    console.log("/simplex")
+    console.log(query.get("filas"))
+    console.log(query.get("columnas"))
+
+    ctx.render('views/ventana.ejs',{personas})
+})
+.get("/ventana_probabilidad_comportamiento/:persona",async (ctx)=>{
+    console.log(ctx.params.persona)
+    let personaAnalizar = {comportamientos:ctx.params.persona?coleccionAgrupacionPuntajesHonary.get(ctx.params.persona):undefined,
+    nombre:ctx.params.persona}
+    console.log(personaAnalizar)
+    ctx.render('views/ventana.ejs',{personas,personaAnalizar})
 
 })
 // .post("/probabilidad_comportamiento", async(context:RouterContext)=>{//https://doc.deno.land/builtin/stable#URLSearchParams
