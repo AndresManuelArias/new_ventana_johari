@@ -9,3 +9,13 @@ ejemplo:
 total:500
 introversion:200
 extroversion:300
+
+https://medium.com/laboratoria-developers/grafos-o-graphs-1e575c89f17
+https://www.youtube.com/results?search_query=matriz+de+incidencia
+https://www.youtube.com/watch?v=1kNB3AM1j5E
+https://ingenieriadesoftware.es/10-librerias-javascript-dibujar-diagramas/
+https://visjs.org/
+https://c3js.org/gettingstarted.html
+https://github.com/magjac/d3-graphviz
+https://www.npmjs.com/package/d3-graphviz
+https://visjs.github.io/vis-network/examples/network/edgeStyles/arrows.html

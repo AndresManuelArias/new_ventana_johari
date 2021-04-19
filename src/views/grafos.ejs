@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Network</title>
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"
+    ></script>
+    <style type="text/css">
+      #mynetwork,#ventanaJohari {
+        width: 600px;
+        height: 400px;
+        border: 1px solid lightgray;
+      }
+    </style>
+  </head>
+  <body>
+      <h1>uno</h1>
+    <div id="ventanaJohari"></div>
+    <script type="text/javascript">
+
+      var networkVentana = new vis.Network(document.getElementById("ventanaJohari"), {
+        nodes:  new vis.DataSet([
+        <% nodes.forEach(n=>{ %>
+            { id: <%=n.id %>, label: "<%=n.label%>",group:<%=n.group%> },
+        <%})%>
+        ]),
+        edges: new vis.DataSet([<% edges.forEach((d)=>{%>        
+        { from: <%=d.from%>, to: <%=d.to%> , arrows:"<%=d.arrows %>",label:"<%=d.label%>",title:"<%=d.label%>",relation:"<%=d.relation %>",color:{color:"<%=d.color%>"}},
+        <%})%>
+        ]),
+        }, 
+      {  
+        physics: {
+            forceAtlas2Based: {
+              gravitationalConstant: -26,
+              centralGravity: 0.005,
+              springLength: 230,
+              springConstant: 0.18,
+            },
+            maxVelocity: 146,
+            solver: "forceAtlas2Based",
+            timestep: 0.35,
+            stabilization: { iterations: 150 },
+          },
+       
+        // edges: {
+        //   arrows: {
+        //     to: {
+        //         enabled: true,
+        //         scaleFactor: 1
+        //     },
+        //     // from:{
+        //     //     enabled: true,
+        //     //     scaleFactor: 1
+        //     // }
+        //   },
+        // },
+    });
+    </script>
+    <form>
+        <label>Please choose one or more people: <br>
+            <select name="personas" multiple size="4">
+                <% for (let item of personas.values()){ %>
+                    <% if(nodes.some(n=>n.label==item && n.group)){ %> 
+                     <option  selected="selected" value="<%=item %>"><%=item %></option>          
+                    <% }else{ %>
+                        <option  value="<%=item %>"><%=item %></option>
+                    <% } %> 
+
+                <% } %> 
+              </optgroup>
+            </select>
+            
+          </label>
+          <input type="submit" value="see people" />
+    </form>
+
+
+      <!-- <h1>dos</h1>
+
+    <div id="mynetwork"></div>
+    <script type="text/javascript">
+      // create an array with nodes
+      var nodes = new vis.DataSet([
+        { id: 1, label: "Node 1" },
+        { id: 2, label: "Node 2" },
+        { id: 3, label: "Node 3" },
+        { id: 4, label: "Node 4" },
+        { id: 5, label: "Node 5" },
+      ]);
+
+      // create an array with edges
+      var edges = new vis.DataSet([
+        { from: 1, to: 3 ,label:"furor",arrows:"to"},
+        { from: 3, to: 1 ,label:"furor",arrows:"to"},
+        { from: 1, to: 2 },
+        { from: 2, to: 4 },
+        { from: 2, to: 5 },
+        { from: 3, to: 3 },
+      ]);
+
+      // create a network
+      var container = document.getElementById("mynetwork");
+      var data = {
+        nodes: nodes,
+        edges: edges,
+      };
+      var options = {};
+      var network = new vis.Network(container, data, options);
+    </script>
+    <script src="//d3js.org/d3.v5.min.js"></script>
+    <script src="https://unpkg.com/@hpcc-js/wasm@0.3.11/dist/index.min.js"></script>
+    <script src="https://unpkg.com/d3-graphviz@3.0.5/build/d3-graphviz.js"></script>
+    <div id="graph" style="text-align: center;"></div>
+    <script>
+    
+    d3.select("#graph").graphviz()
+        .renderDot('digraph  {a -> b}');
+    
+    </script> -->
+  </body>
+</html>

@@ -1,3 +1,6 @@
+/**
+ falta hacer lo de los nodos y la evolucion del tiempo de los comportamientos
+ */
 type Zonas ={
 [key: string]: Map<string,number[]>
 zonaAbierta:Map<string,number[]>
